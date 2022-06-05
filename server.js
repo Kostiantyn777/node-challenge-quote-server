@@ -18,11 +18,32 @@ app.get("/", function (request, response) {
 });
 
 //START OF YOUR CODE...
+
+//Level 1 Challenge - make the quote server//
+
 app.get("/quotes", function (request, response) {
   response.send(quotes);
 });
 app.get("/quotes/random", function (request, response) {
   response.send(pickFromArray(quotes));
+});
+
+//Level 2 Challenge - respond from url with parameter//
+
+app.get("/quotes/search", (request, response) => {
+  let term = request.query.term.toLowerCase();
+  
+
+  const filteredObject = quotes.filter((el) => {
+    return (
+      el.quote.toLowerCase().includes(term) ||
+      el.author.toLowerCase().includes(term)
+    );
+  });
+  if (filteredObject.length == 0) {
+    response.status(404).send(filteredObject);
+  }
+  response.send(filteredObject);
 });
 
 //...END OF YOUR CODE
